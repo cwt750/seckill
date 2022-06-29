@@ -1,0 +1,117 @@
+server:
+  port: 9099
+
+spring:
+  shardingsphere:
+    props:
+      sql:
+        show: true
+    datasource:
+      names: db1,db2,db3
+      db1:
+        # 配置druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.180.129:3307/pro_kill?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=true&serverTimezone=GMT
+        username: root
+        password: 123456
+        #最大连接数
+        maxPoolSize: 100
+        #最小连接数
+        minPoolSize: 5
+      db2:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.180.129:3308/pro_kill?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=true&serverTimezone=GMT
+        username: root
+        password: 123456
+        #最大连接数
+        maxPoolSize: 100
+        #最小连接数
+        minPoolSize: 5
+      db3:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://192.168.180.129:3309/pro_kill?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=true&serverTimezone=GMT
+        username: root
+        password: 123456
+        #最大连接数
+        maxPoolSize: 100
+        #最小连接数
+        minPoolSize: 5
+      # 配置数据源的读写分离，但是数据库一定要做主从复制
+    masterslave:
+      # 配置主从名称，可以任意取名字
+      name: ms
+      # 配置slave节点的负载均衡均衡策略，采用轮询机制
+      load-balance-algorithm-type: round_robin
+      # 配置主库master，负责数据的写入
+      master-data-source-name: db1
+      # 配置从库slave节点
+      slave-data-source-names: db2,db3
+
+
+
+  rabbitmq:
+    host: 192.168.180.129
+    port: 5672
+    password: guest
+    username: guest
+    virtual-host: /
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 10
+        prefetch: 1
+        auto-startup: true
+        default-requeue-rejected: true
+    template:
+      retry:
+        enabled: true
+        initial-interval: 1000
+        max-attempts: 3
+        max-interval: 10000
+        multiplier: 1.0
+
+  thymeleaf:
+    cache: false
+    content-type: text/html
+    enabled: true
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+
+  web:
+    resources:
+      add-mappings: true
+      cache:
+        period: 3600
+      chain:
+        cache: true
+        enabled: true
+        gzippped: true
+        html-application-cache: true
+      static-locations: classpath:/static/
+
+
+mybatis:
+  type-aliases-package: com.example.kill.pojo
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.log4j.Log4jImpl
+
+redis:
+  host: 192.168.180.129
+  port: 6379
+  timeout: 5000
+  pool-max-total: 1000
+  pool-max-idle: 500
+  pool-max-wait: 500
+
+dubbo:
+  application:
+    name: consumer
+  registry:
+    address: zookeeper://192.168.180.129:2181

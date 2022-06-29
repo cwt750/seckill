@@ -1,0 +1,99 @@
+server.port=8088
+
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://192.168.180.129:3306/pro_kill?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true
+spring.datasource.username=root
+spring.datasource.password=123456
+spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
+spring.datasource.maxActive=1000
+spring.datasource.initialSize=100
+spring.datasource.maxWait=60000
+spring.datasource.minIdle=500
+spring.datasource.timeBetweenEvictionRunsMillis= 60000
+spring.datasource.minEvictableIdleTimeMillis= 300000
+spring.datasource.validationQuery= SELECT 1 FROM DUAL
+spring.datasource.testWhileIdle= true
+spring.datasource.testOnBorrow= false
+spring.datasource.testOnReturn= false
+spring.datasource.poolPreparedStatements= true
+spring.datasource.filters= stat,wall,log4j
+spring.datasource.maxPoolPreparedStatementPerConnectionSize= 20
+spring.datasource.useGlobalDataSourceStat= true
+spring.datasource.connectionProperties= druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+#spring.shardingsphere.props.sql.show=true
+#spring.shardingsphere.datasource.names=db1,db2,db3
+#spring.shardingsphere.datasource.db1.type=com.alibaba.druid.pool.DruidDataSource
+#spring.shardingsphere.datasource.db1.driver-class-name: com.mysql.cj.jdbc.Driver
+#spring.shardingsphere.datasource.db1.url: jdbc:mysql://192.168.180.129:3307/pro_kill?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=true&serverTimezone=GMT
+#spring.shardingsphere.datasource.db1.username: root
+#spring.shardingsphere.datasource.db1.password: 123456
+#spring.shardingsphere.datasource.db1.maxPoolSize: 100
+#spring.shardingsphere.datasource.db1.minPoolSize: 5
+#spring.shardingsphere.datasource.db2.type=com.alibaba.druid.pool.DruidDataSource
+#spring.shardingsphere.datasource.db2.driver-class-name: com.mysql.cj.jdbc.Driver
+#spring.shardingsphere.datasource.db2.url: jdbc:mysql://192.168.180.129:3308/pro_kill?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=true&serverTimezone=GMT
+#spring.shardingsphere.datasource.db2.username: root
+#spring.shardingsphere.datasource.db2.password: 123456
+#spring.shardingsphere.datasource.db2.maxPoolSize: 100
+#spring.shardingsphere.datasource.db2.minPoolSize: 5
+#spring.shardingsphere.datasource.db3.type=com.alibaba.druid.pool.DruidDataSource
+#spring.shardingsphere.datasource.db3.driver-class-name: com.mysql.cj.jdbc.Driver
+#spring.shardingsphere.datasource.db3.url: jdbc:mysql://192.168.180.129:3309/pro_kill?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=true&serverTimezone=GMT
+#spring.shardingsphere.datasource.db3.username: root
+#spring.shardingsphere.datasource.db3.password: 123456
+#spring.shardingsphere.datasource.db3.maxPoolSize: 100
+#spring.shardingsphere.datasource.db3.minPoolSize: 5
+#
+#spring.shardingsphere.masterslave.name=ms
+#spring.shardingsphere.masterslave.load-balance-algorithm-type=round_robin
+#spring.shardingsphere.masterslave.master-data-source-name=db1
+#spring.shardingsphere.masterslave.slave-data-source-names=db2,db3
+
+mybatis.type-aliases-package=com.example.kill.pojo
+mybatis.mapper-locations=classpath:mybatis/mapper/*.xml
+mybatis.configuration.map-underscore-to-camel-case=true
+mybatis.configuration.log-impl=org.apache.ibatis.logging.log4j.Log4jImpl
+
+redis.host=192.168.180.129
+redis.port=6379
+#redis.password=123456
+redis.timeout=5000
+redis.poolMaxTotal=1000
+redis.poolMaxIdle=500
+redis.poolMaxWait=500
+
+spring.rabbitmq.host=192.168.180.129
+spring.rabbitmq.port=5672
+spring.rabbitmq.username=guest
+spring.rabbitmq.password=guest
+spring.rabbitmq.virtual-host=/
+spring.rabbitmq.listener.simple.concurrency= 10
+spring.rabbitmq.listener.simple.max-concurrency= 10
+spring.rabbitmq.listener.simple.prefetch= 1
+spring.rabbitmq.listener.simple.auto-startup=true
+spring.rabbitmq.listener.simple.default-requeue-rejected= true
+spring.rabbitmq.template.retry.enabled=true 
+spring.rabbitmq.template.retry.initial-interval=1000
+spring.rabbitmq.template.retry.max-attempts=3
+spring.rabbitmq.template.retry.max-interval=10000
+spring.rabbitmq.template.retry.multiplier=1.0
+
+spring.thymeleaf.cache=false
+spring.thymeleaf.content-type=text/html
+spring.thymeleaf.enabled=true
+spring.thymeleaf.encoding=UTF-8
+spring.thymeleaf.mode=HTML5
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+
+spring.web.resources.add-mappings=true
+spring.web.resources.cache.period=3600
+spring.web.resources.chain.cache=true 
+spring.web.resources.chain.enabled=true
+spring.web.resources.chain.gzipped=true
+spring.web.resources.chain.html-application-cache=true
+spring.web.resources.static-locations=classpath:/static/
+
+dubbo.application.name=consumer
+dubbo.registry.address=zookeeper://192.168.180.129:2181

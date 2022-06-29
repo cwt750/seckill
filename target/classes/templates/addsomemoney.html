@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>加钱加钱</title>
+    <!-- jquery -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/detail.css}"/>
+</head>
+<body>
+    <div class="top">
+        <span th:if="${user == null}"> 您还没有登录，请登陆后再操作</span>
+        <span th:if="${user != null}"> <span th:text="'欢迎您 '+${user.userName}"></span></span>
+        <span>没有收货地址的提示。。。</span>
+    </div>
+    <div class="content">
+        <div class="title">
+            <h4>加点钱</h4>
+        </div>
+        <form name="addmoneyForm" id="addmoneyForm" method="post">
+            <div class="form-group">
+                <input id="money" name="money" class="form-control" type="text" placeholder="金钱数额" required="true"
+                       minlength="1" maxlength="11"/>
+            </div>
+
+            <div class="form-group">
+                <input id="password" name="password" class="form-control" type="password" placeholder="密码"
+                       required="true" minlength="6" maxlength="16"/>
+            </div>
+            <button class="btn btn-primary btn-block" type="submit" onclick="addsomemoney()">一键加钱</button>
+        </form>
+    </div>
+</body>
+<script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<!-- jquery-validator -->
+<script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+<script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>
+<!-- layer -->
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<!-- md5.js -->
+<script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
+<!-- common.js -->
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script>
+    function addsomemoney() {
+
+        //获取明文密码进行MD5加密
+        var inputPass = $("#password").val();
+        var salt = g_passsword_salt;
+        var str = "" + salt.charAt(0) + salt.charAt(2) + inputPass + salt.charAt(5) + salt.charAt(4);
+        var password = md5(str);
+
+        $.ajax({
+            url: "/paybill/putmoney",
+            type: "POST",
+            data: {
+                money: $("#money").val(),
+                password: password
+            },
+            success: function (data) {
+                if (data.code == 0) {
+                    console.log("111");
+                    window.location.href = "/paybill/addsuccess";
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            error: function () {
+                layer.closeAll();
+            }
+        });
+    }
+</script>
+</html>

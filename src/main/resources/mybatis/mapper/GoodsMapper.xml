@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.kill.dao.GoodsMapper">
+    <select id="listGoodsVo" resultType="goodsVo">
+        select g.*,sg.stock_count,sg.start_date,sg.end_date,sg.seckill_price
+        from seckill_goods sg left join goods g on sg.goods_id = g.id
+    </select>
+    <select id="getGoodsVoById" resultType="GoodsVo">
+        select g.*,sg.stock_count,sg.start_date,sg.end_date,sg.seckill_price
+        from seckill_goods sg left join goods g on sg.goods_id = g.id where g.id = #{goodsId}
+    </select>
+    <update id="reduceStock">
+        update seckill_goods set stock_count = stock_count-1 where goods_id = #{goodsId} and stock_count > 0
+    </update>
+</mapper>
